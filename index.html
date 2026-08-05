@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<!-- skill:chrome -->
+<style>
+/* Credit line — bottom-right */
+.design-ui-credit {
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+  font: 11px/1 system-ui, sans-serif;
+  color: rgba(128,128,128,0.5);
+  pointer-events: none;
+  z-index: 2147483647;
+  transition: opacity 0.4s ease;
+  user-select: none;
+  letter-spacing: 0.02em;
+}
+
+/* Hide chrome on touch devices */
+@media (hover: none) {
+  .design-ui-credit { display: none; }
+}
+
+/* Print fixes */
+@media print {
+  * {
+    transition: none !important;
+    animation: none !important;
+    box-shadow: none !important;
+  }
+  body {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .design-ui-credit { display: none !important; }
+}
+
+</style>
+<script>
+(function () {
+    // Design-ui pages are single compositions, so the whole body is editable.
+    function markEditable() {
+        document.body.classList.add('artifact-editable');
+    }
+
+    // Credit badge with idle-fade. Hover devices only.
+    function initChromeUI() {
+        if (!matchMedia('(hover: hover)').matches) return;
+
+        var credit = document.createElement('div');
+        credit.className = 'design-ui-credit';
+        credit.setAttribute('aria-hidden', 'true');
+        credit.innerHTML = '\u{1F49C} by ClickUp Brain';
+        document.body.appendChild(credit);
+
+        var timer = null;
+        var fade = function (out) { credit.style.opacity = out ? '0' : ''; };
+        fade(true);
+        var show = function () {
+            fade(false);
+            clearTimeout(timer);
+            timer = setTimeout(function () { fade(true); }, 3000);
+        };
+        document.addEventListener('mousemove', show);
+        show();
+    }
+
+    function init() {
+        markEditable();
+        initChromeUI();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();
+
+</script>
+<!-- /skill:chrome -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daniela Aguilar Arreaga · Proyecto Final</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#241512;--maroon:#5C0F16;--crimson:#B3212E;--ember:#E8622C;--cream:#F6EEE4;--ash:#B99C90;--muted:#684f49}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{font-family:Inter,sans-serif;background:var(--cream);color:var(--ink);line-height:1.6}.eyebrow{font: .78rem 'IBM Plex Mono',monospace;letter-spacing:.14em;text-transform:uppercase}
+nav{position:sticky;top:0;z-index:10;background:var(--ink);display:flex;justify-content:space-between;align-items:center;padding:1.1rem 6vw;border-bottom:1px solid rgba(246,238,228,.1)}.brand{font:600 1.05rem Fraunces,serif;color:var(--cream);cursor:pointer}.links{display:flex;gap:.4rem;flex-wrap:wrap}.navlink{font:.78rem 'IBM Plex Mono',monospace;color:var(--ash);padding:.5em .9em;border:0;border-radius:100px;background:none;cursor:pointer}.navlink:hover,.navlink.active{color:var(--cream);background:var(--crimson)}
+.page{display:none}.page.visible{display:block}.home-hero{position:relative;min-height:88svh;background:var(--ink);color:var(--cream);overflow:hidden;display:flex;align-items:center;padding:6vh 8vw 0}.hero-content{position:relative;z-index:2;max-width:760px;margin-bottom:12vh}.home-hero .eyebrow{color:var(--ember);margin-bottom:1.4rem}.home-hero h1,.unit-hero h1{font:600 clamp(2.3rem,6vw,4.4rem)/1.05 Fraunces,serif}.sub{margin-top:1.6rem;color:var(--ash);max-width:48ch;font-size:1.1rem}.tags{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:2.2rem}.tag{font:.78rem 'IBM Plex Mono',monospace;color:var(--cream);border:1px solid rgba(246,238,228,.25);padding:.45em .9em;border-radius:100px}.volcano{position:absolute;left:0;right:0;bottom:0;line-height:0}.glow{position:absolute;left:50%;bottom:26%;width:120px;height:120px;transform:translateX(-50%);background:radial-gradient(circle,rgba(232,98,44,.55),transparent 70%)}
+.photo-about{display:grid;grid-template-columns:auto 1fr;gap:3rem;align-items:center;max-width:1100px;margin:auto;padding:5rem 8vw}.photo-frame{width:200px;height:200px;border-radius:50%;overflow:hidden;border:4px solid var(--crimson);background:var(--maroon);display:grid;place-items:center;color:var(--cream);font:.75rem 'IBM Plex Mono',monospace;text-align:center}.photo-frame img{width:100%;height:100%;object-fit:cover}.about-text h2,.units-preview h2{font:600 clamp(1.7rem,3vw,2.3rem) Fraunces,serif;margin-bottom:1rem}.about-text p{max-width:55ch;font-size:1.05rem}.about-text p+p{margin-top:.8rem}
+.units-preview{max-width:1100px;margin:auto;padding:0 8vw 5rem}.unit-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.2rem}.unit-card{background:var(--ink);color:var(--cream);border-radius:16px;padding:2rem;cursor:pointer;transition:transform .25s}.unit-card:hover{transform:translateY(-4px)}.card-stars{display:flex;gap:4px;align-items:center;color:var(--ember);font-size:1.35rem;line-height:1;margin-bottom:.9rem}.star{display:inline-block;width:1em;height:1em;position:relative;color:var(--muted)}.star::before{content:'★';position:absolute;inset:0}.star.full{color:var(--ember)}.star.half::after{content:'★';position:absolute;inset:0;width:50%;overflow:hidden;color:var(--ember)}.card-title{font:600 1.3rem Fraunces,serif}.card-desc{color:var(--ash);font-size:.88rem}
+.unit-hero{background:linear-gradient(160deg,var(--maroon),var(--ink) 75%);color:var(--cream);padding:5.5rem 8vw 4.5rem}.unit-hero h1{font-size:clamp(2.2rem,5vw,3.6rem)}.unit-hero .desc{margin-top:1.2rem;color:var(--ash);max-width:52ch}.units-grid{padding:2rem 8vw 6rem;max-width:1100px;margin:auto;display:flex;flex-direction:column;gap:1rem}.tema{background:#fff;border:1px solid rgba(92,15,22,.12);border-radius:14px;overflow:hidden}.tema-head{width:100%;display:flex;justify-content:space-between;align-items:center;padding:1.3rem 1.6rem;background:none;border:0;cursor:pointer;text-align:left;font:600 1.15rem Fraunces,serif;color:var(--ink)}.num{font:.78rem 'IBM Plex Mono',monospace;color:var(--crimson);margin-right:.8rem}.icon{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--crimson);color:var(--cream);font:1.1rem sans-serif;transition:transform .25s}.tema.open .icon{transform:rotate(45deg)}.tema-body{max-height:0;overflow:hidden;background:var(--cream);transition:max-height .35s}.tema.open .tema-body{max-height:700px}.tema-body-inner{padding:0 1.6rem 1.8rem;display:grid;grid-template-columns:1fr 1.3fr;gap:1.6rem}.tema-img{width:100%;aspect-ratio:4/3;border-radius:10px;background:linear-gradient(135deg,var(--maroon),var(--crimson));display:grid;place-items:center;color:rgba(246,238,228,.75);font:.75rem 'IBM Plex Mono',monospace;text-align:center;padding:1rem}.tema-body p{font-size:.98rem}.note{margin-top:.9rem;color:var(--crimson);font:.8rem 'IBM Plex Mono',monospace}footer{padding:3rem 8vw;border-top:1px solid rgba(36,21,18,.1);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}.mark{font:600 1rem Fraunces,serif}@media(max-width:760px){.photo-about,.tema-body-inner{grid-template-columns:1fr}.photo-frame{margin:auto}.photo-about{text-align:center}.about-text p{margin-left:auto;margin-right:auto}}
+</style>
+</head>
+<body>
+<nav><span class="brand" onclick="showPage('inicio')">Daniela Aguilar</span><div class="links"><button class="navlink active" data-page="inicio">Inicio</button><button class="navlink" data-page="unidad1">Unidad 1</button><button class="navlink" data-page="unidad2">Unidad 2</button><button class="navlink" data-page="unidad3">Unidad 3</button></div></nav>
+<div class="page visible" id="page-inicio">
+<section class="home-hero"><div class="hero-content"><p class="eyebrow">Ingeniería en Software</p><h1>Daniela Abigail<br>Aguilar Arreaga</h1><p class="sub">¡Hola! Soy Daniela, estudiante de nivelación de la carrera de Ingeniería en Software en la Universidad Técnica de Cotopaxi. Me apasiona el desarrollo tecnológico y cómo la programación puede transformar ideas creativas en soluciones reales y funcionales.</p><div class="tags"><span class="tag">18 años</span><span class="tag">Latacunga, Cotopaxi</span><span class="tag">UTC 2026</span></div></div><div class="volcano"><div class="glow"></div><svg viewBox="0 0 1200 420" preserveAspectRatio="none" style="width:100%;display:block"><path d="M0 420V300h260L420 120l100 90 80-120 80 120 100-80 160 170h260v120z" fill="#170A08"/><path d="M0 420v-80h300l170-170 130-80 130 80 170 170h300v80z" fill="#5C0F16"/><path d="m560 130 40-40 40 40-20 20 20 20-40 35-40-35 20-20z" fill="#E8622C"/></svg></div></section>
+<div class="photo-about"><div class="photo-frame"><img src="tu-foto.jpg" alt="Daniela Aguilar" onerror="this.style.display='none';this.parentElement.textContent='Coloca tu foto aquí';"></div><div class="about-text"><h2>Sobre mí</h2><p>Mi nombre es Daniela Abigail Aguilar Arreaga, tengo 18 años. Mis padres son Manuel Aguilar y Paola Arreaga. Mis estudios fueron en la Unidad Educativa Pujilí.</p><p>Este proyecto refleja mi dedicación y el aprendizaje adquirido durante esta etapa de nivelación en la Universidad Técnica de Cotopaxi.</p></div></div>
+<div class="units-preview"><h2>Unidades del Proyecto</h2><div class="unit-cards">
+<div class="unit-card" onclick="showPage('unidad1')"><div class="card-stars" aria-label="4 estrellas"><span class="star full"></span><span class="star full"></span><span class="star full"></span><span class="star full"></span></div><div class="card-title">Unidad 1</div><div class="card-desc">4 estrellas · 5 temas de estudio</div></div>
+<div class="unit-card" onclick="showPage('unidad2')"><div class="card-stars" aria-label="3 estrellas y media"><span class="star full"></span><span class="star full"></span><span class="star full"></span><span class="star half"></span></div><div class="card-title">Unidad 2</div><div class="card-desc">3.5 estrellas · 5 temas de estudio</div></div>
+<div class="unit-card" onclick="showPage('unidad3')"><div class="card-stars" aria-label="3 estrellas"><span class="star full"></span><span class="star full"></span><span class="star full"></span></div><div class="card-title">Unidad 3</div><div class="card-desc">3 estrellas · 5 temas de estudio</div></div>
+</div></div></div>
+<div class="page" id="page-unidad1"><section class="unit-hero"><p class="eyebrow">Proyecto final</p><h1>Unidad 1</h1><p class="desc">Haz clic sobre cada tema para desplegar su contenido.</p></section><div class="units-grid"></div></div>
+<div class="page" id="page-unidad2"><section class="unit-hero"><p class="eyebrow">Proyecto final</p><h1>Unidad 2</h1><p class="desc">Haz clic sobre cada tema para desplegar su contenido.</p></section><div class="units-grid"></div></div>
+<div class="page" id="page-unidad3"><section class="unit-hero"><p class="eyebrow">Proyecto final</p><h1>Unidad 3</h1><p class="desc">Haz clic sobre cada tema para desplegar su contenido.</p></section><div class="units-grid"></div></div>
+<footer><span class="mark">Daniela A. Aguilar Arreaga</span><span class="eyebrow">Proyecto final · UTC 2026</span></footer>
+<script>
+function temas(unidad){return Array.from({length:5},(_,i)=>`<div class="tema"><button class="tema-head"><span><span class="num">0${i+1}</span>Tema ${i+1}</span><span class="icon">+</span></button><div class="tema-body"><div class="tema-body-inner"><div class="tema-img">Imagen del Tema ${i+1}</div><div><p>Contenido del Tema ${i+1}, ${unidad}.</p><p class="note">Edita este texto y agrega tu imagen.</p></div></div></div></div>`).join('')}
+document.querySelector('#page-unidad1 .units-grid').innerHTML=temas('Unidad 1');document.querySelector('#page-unidad2 .units-grid').innerHTML=temas('Unidad 2');document.querySelector('#page-unidad3 .units-grid').innerHTML=temas('Unidad 3');
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('visible'));document.getElementById('page-'+id).classList.add('visible');document.querySelectorAll('.navlink').forEach(b=>b.classList.toggle('active',b.dataset.page===id));window.scrollTo(0,0)}
+document.querySelectorAll('.navlink').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));document.addEventListener('click',e=>{if(e.target.closest('.tema-head'))e.target.closest('.tema').classList.toggle('open')});
+</script>
+</body>
+</html>
