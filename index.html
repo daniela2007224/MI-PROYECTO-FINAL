@@ -1,501 +1,121 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<!-- skill:chrome -->
+<style>
+/* Credit line — bottom-right */
+.design-ui-credit {
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+  font: 11px/1 system-ui, sans-serif;
+  color: rgba(128,128,128,0.5);
+  pointer-events: none;
+  z-index: 2147483647;
+  transition: opacity 0.4s ease;
+  user-select: none;
+  letter-spacing: 0.02em;
+}
+
+/* Hide chrome on touch devices */
+@media (hover: none) {
+  .design-ui-credit { display: none; }
+}
+
+/* Print fixes */
+@media print {
+  * {
+    transition: none !important;
+    animation: none !important;
+    box-shadow: none !important;
+  }
+  body {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .design-ui-credit { display: none !important; }
+}
+
+</style>
+<script>
+(function () {
+    // Design-ui pages are single compositions, so the whole body is editable.
+    function markEditable() {
+        document.body.classList.add('artifact-editable');
+    }
+
+    // Credit badge with idle-fade. Hover devices only.
+    function initChromeUI() {
+        if (!matchMedia('(hover: hover)').matches) return;
+
+        var credit = document.createElement('div');
+        credit.className = 'design-ui-credit';
+        credit.setAttribute('aria-hidden', 'true');
+        credit.innerHTML = '\u{1F49C} by ClickUp Brain';
+        document.body.appendChild(credit);
+
+        var timer = null;
+        var fade = function (out) { credit.style.opacity = out ? '0' : ''; };
+        fade(true);
+        var show = function () {
+            fade(false);
+            clearTimeout(timer);
+            timer = setTimeout(function () { fade(true); }, 3000);
+        };
+        document.addEventListener('mousemove', show);
+        show();
+    }
+
+    function init() {
+        markEditable();
+        initChromeUI();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();
+
+</script>
+<!-- /skill:chrome -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daniela Aguilar Arreaga · Proyecto Final</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Daniela Aguilar Arreaga · Proyecto final</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-
-:root{
-  --ink:#241512;
-  --maroon:#5C0F16;
-  --crimson:#B3212E;
-  --ember:#E8622C;
-  --cream:#F6EEE4;
-  --ash:#B99C90;
-}
-*{box-sizing:border-box; margin:0; padding:0;}
-html{scroll-behavior:smooth;}
-body{
-  font-family:'Inter', sans-serif;
-  background:var(--cream);
-  color:var(--ink);
-  line-height:1.6;
-}
-.eyebrow{
-  font-family:'IBM Plex Mono', monospace;
-  font-size:0.78rem;
-  letter-spacing:0.14em;
-  text-transform:uppercase;
-}
-
-/* ---------- NAV ---------- */
-nav.topnav{
-  position:sticky; top:0; z-index:50;
-  background:var(--ink);
-  display:flex; align-items:center; justify-content:space-between;
-  padding:1.1rem 6vw;
-  border-bottom:1px solid rgba(246,238,228,0.1);
-}
-nav.topnav .brand{
-  font-family:'Fraunces', serif;
-  font-weight:600;
-  color:var(--cream);
-  font-size:1.05rem;
-  text-decoration:none;
-}
-nav.topnav .links{ display:flex; gap:0.4rem; flex-wrap:wrap; }
-nav.topnav a.navlink{
-  font-family:'IBM Plex Mono', monospace;
-  font-size:0.78rem;
-  letter-spacing:0.04em;
-  color:var(--ash);
-  text-decoration:none;
-  padding:0.5em 0.9em;
-  border-radius:100px;
-  transition:background .2s, color .2s;
-}
-nav.topnav a.navlink:hover{ color:var(--cream); background:rgba(246,238,228,0.08); }
-
-/* ---------- HOME HERO ---------- */
-.home-hero{
-  position:relative;
-  min-height:82svh;
-  background:var(--ink);
-  color:var(--cream);
-  overflow:hidden;
-  display:flex; flex-direction:column; justify-content:center;
-  padding:6vh 8vw 0;
-}
-.home-hero .hero-content{ position:relative; z-index:3; max-width:760px; margin-bottom:14vh; }
-.home-hero .eyebrow{ color:var(--ember); display:flex; align-items:center; gap:0.6em; margin-bottom:1.4rem; }
-.home-hero .eyebrow::before{ content:""; width:8px; height:8px; border-radius:50%; background:var(--ember); box-shadow:0 0 0 4px rgba(232,98,44,0.2); }
-.home-hero h1{
-  font-family:'Fraunces', serif; font-weight:600;
-  font-size:clamp(2.3rem, 6vw, 4.4rem); line-height:1.05; letter-spacing:-0.01em;
-}
-.home-hero .sub{ margin-top:1.6rem; font-size:clamp(1rem, 1.6vw, 1.2rem); color:var(--ash); max-width:40ch; }
-.home-hero .tags{ margin-top:2.2rem; display:flex; gap:0.7rem; flex-wrap:wrap; }
-.tag{
-  font-family:'IBM Plex Mono', monospace; font-size:0.78rem;
-  border:1px solid rgba(246,238,228,0.25); color:var(--cream);
-  padding:0.45em 0.9em; border-radius:100px; letter-spacing:0.02em;
-}
-.volcano-wrap{ position:absolute; left:0; right:0; bottom:0; z-index:1; line-height:0; }
-.glow-pulse{
-  position:absolute; left:50%; bottom:26%; width:120px; height:120px; transform:translateX(-50%);
-  background:radial-gradient(circle, rgba(232,98,44,0.55) 0%, rgba(232,98,44,0) 70%);
-  animation:pulse 4.5s ease-in-out infinite; z-index:2;
-}
-@keyframes pulse{
-  0%,100%{opacity:0.55; transform:translateX(-50%) scale(1);}
-  50%{opacity:1; transform:translateX(-50%) scale(1.25);}
-}
-@media (prefers-reduced-motion: reduce){ .glow-pulse{animation:none;} }
-
-/* ---------- SECTIONS ---------- */
-section.panel{ padding:5.5rem 8vw; max-width:1100px; margin:0 auto; }
-.panel .eyebrow{ color:var(--crimson); margin-bottom:1rem; }
-.panel h2{
-  font-family:'Fraunces', serif; font-weight:600;
-  font-size:clamp(1.8rem, 3.4vw, 2.6rem); margin-bottom:1.6rem; max-width:16ch;
-}
-.grid-2{ display:grid; grid-template-columns:1fr 1.4fr; gap:3.5rem; align-items:start; }
-@media (max-width:760px){ .grid-2{grid-template-columns:1fr;} }
-.panel p{ max-width:56ch; color:#3a2622; font-size:1.05rem; }
-.panel p + p{ margin-top:1rem; }
-.edu-card{
-  background:var(--ink); color:var(--cream); border-radius:18px; padding:2.4rem;
-  position:relative; overflow:hidden;
-}
-.edu-card::after{
-  content:""; position:absolute; right:-40px; bottom:-40px; width:160px; height:160px;
-  border-radius:50%; background:radial-gradient(circle, rgba(232,98,44,0.25), transparent 70%);
-}
-.edu-card .school{ font-family:'Fraunces', serif; font-size:1.4rem; font-weight:600; margin-bottom:0.3rem; }
-.edu-card .place{ color:var(--ash); font-size:0.92rem; }
-.edu-card + .edu-card{ margin-top:1.4rem; }
-
-/* ---------- UNIT SECTION ---------- */
-.unit-section{
-  padding:4rem 8vw 5rem;
-  max-width:1100px;
-  margin:0 auto;
-}
-.unit-header{
-  position:relative;
-  background:linear-gradient(160deg, var(--maroon), var(--ink) 75%);
-  color:var(--cream);
-  padding:3.5rem 8vw 3rem;
-  overflow:hidden;
-  margin-top:2rem;
-}
-.unit-header .glow{
-  position:absolute; right:-60px; top:-60px;
-  width:280px; height:280px; border-radius:50%;
-  background:radial-gradient(circle, rgba(232,98,44,0.35), transparent 70%);
-}
-.unit-header .eyebrow{ color:var(--ember); margin-bottom:0.8rem; position:relative; z-index:2;}
-.unit-header h2{
-  font-family:'Fraunces', serif;
-  font-weight:600;
-  font-size:clamp(1.8rem, 4vw, 3rem);
-  position:relative; z-index:2;
-  color:var(--cream);
-  margin-bottom:0;
-}
-.unit-header p.desc{
-  margin-top:0.8rem;
-  max-width:52ch;
-  color:var(--ash);
-  position:relative; z-index:2;
-  font-size:0.95rem;
-}
-
-/* ---------- ACCORDION ---------- */
-.units-grid{ padding:1.5rem 8vw 3rem; max-width:1100px; margin:0 auto; display:flex; flex-direction:column; gap:1rem; }
-.tema{
-  background:#fff;
-  border:1px solid rgba(92,15,22,0.12);
-  border-radius:14px;
-  overflow:hidden;
-}
-.tema button.tema-head{
-  width:100%; display:flex; align-items:center; justify-content:space-between; gap:1rem;
-  background:transparent; border:none; cursor:pointer;
-  padding:1.3rem 1.6rem; text-align:left;
-  font-family:'Fraunces', serif; font-size:1.15rem; font-weight:600; color:var(--ink);
-}
-.tema button.tema-head .num{
-  font-family:'IBM Plex Mono', monospace; font-size:0.78rem; color:var(--crimson);
-  margin-right:0.8rem;
-}
-.tema button.tema-head .icon{
-  flex:0 0 auto;
-  width:28px; height:28px; border-radius:50%;
-  background:var(--crimson); color:var(--cream);
-  display:flex; align-items:center; justify-content:center;
-  font-size:1.1rem; transition:transform .25s cubic-bezier(0.25, 1, 0.5, 1);
-}
-.tema.open button.tema-head .icon{ transform:rotate(45deg); }
-.tema-body{
-  max-height:0; overflow:hidden; transition:max-height .35s cubic-bezier(0.25, 1, 0.5, 1);
-  background:var(--cream);
-}
-.tema.open .tema-body{ max-height:1200px; } /* Increased max-height for content */
-.tema-body-inner{
-  padding:0 1.6rem 1.8rem 1.6rem;
-  display:grid; grid-template-columns:1fr 1.3fr; gap:1.6rem; align-items:start;
-}
-@media (max-width:640px){ .tema-body-inner{ grid-template-columns:1fr; } }
-.tema-img{
-  width:100%; aspect-ratio:4/3; border-radius:10px; object-fit:cover;
-  background:linear-gradient(135deg, var(--maroon), var(--crimson));
-  display:flex; align-items:center; justify-content:center;
-  color:rgba(246,238,228,0.75); font-family:'IBM Plex Mono', monospace; font-size:0.75rem;
-  text-align:center; padding:1rem;
-}
-.tema-body p{ color:#3a2622; font-size:0.98rem; margin-bottom: 0.8rem;}
-.tema-body ul{ margin-left: 1.2rem; margin-bottom: 1rem; color:#3a2622; font-size:0.98rem;}
-.tema-body .note{ margin-top:0.9rem; font-family:'IBM Plex Mono', monospace; font-size:0.8rem; color:var(--crimson); }
-
-footer{
-  padding:3rem 8vw 3.5rem; display:flex; justify-content:space-between; align-items:center;
-  flex-wrap:wrap; gap:1rem; border-top:1px solid rgba(36,21,18,0.1);
-}
-footer .eyebrow{ color:var(--ash); }
-footer .mark{ font-family:'Fraunces', serif; font-weight:600; color:var(--ink); }
-
+:root{--font:'DM Sans',sans-serif;--ink:oklch(20% .035 35);--maroon:oklch(25% .12 20);--crimson:oklch(49% .19 25);--ember:oklch(63% .19 45);--cream:oklch(96% .025 75);--ash:oklch(70% .055 35);--muted:oklch(42% .07 35);--paper:oklch(99% .012 75);--line:oklch(35% .08 25 / .16)}
+*{box-sizing:border-box;margin:0;padding:0;font-family:var(--font)}html{scroll-behavior:smooth}body{background:var(--cream);color:var(--ink);line-height:1.65}button{font:inherit}.eyebrow{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+nav{position:sticky;top:0;z-index:10;background:var(--ink);display:flex;justify-content:space-between;align-items:center;padding:1.1rem 6vw;border-bottom:1px solid oklch(96% .025 75 / .1)}.brand{font-size:1.05rem;font-weight:700;color:var(--cream);cursor:pointer}.links{display:flex;gap:.4rem;flex-wrap:wrap}.navlink{font-size:.78rem;color:var(--ash);padding:.5em .9em;border:0;border-radius:100px;background:none;cursor:pointer;transition:background .2s ease-out,color .2s ease-out}.navlink:hover,.navlink.active{color:var(--cream);background:var(--crimson)}.navlink:focus-visible,.tema-head:focus-visible{outline:3px solid var(--ember);outline-offset:3px}
+.page{display:none}.page.visible{display:block}.home-hero{position:relative;min-height:88svh;background:var(--ink);color:var(--cream);overflow:hidden;display:flex;align-items:center;padding:6vh 8vw 0}.hero-content{position:relative;z-index:2;max-width:760px;margin-bottom:12vh}.home-hero .eyebrow{color:var(--ember);margin-bottom:1.4rem}.home-hero h1{font-size:clamp(2.3rem,6vw,4.4rem);line-height:1.05;font-weight:700;text-wrap:balance}.sub{margin-top:1.6rem;color:var(--ash);max-width:48ch;font-size:1.1rem}.tags{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:2.2rem}.tag{font-size:.78rem;color:var(--cream);border:1px solid oklch(96% .025 75 / .25);padding:.45em .9em;border-radius:100px}.volcano{position:absolute;left:0;right:0;bottom:0;line-height:0}.glow{position:absolute;left:50%;bottom:26%;width:120px;height:120px;transform:translateX(-50%);background:radial-gradient(circle,oklch(63% .19 45 / .55),transparent 70%)}
+.photo-about{display:grid;grid-template-columns:auto 1fr;gap:3rem;align-items:center;max-width:1100px;margin:auto;padding:5rem 8vw}.photo-frame{width:200px;height:200px;border-radius:50%;overflow:hidden;border:4px solid var(--crimson);background:var(--maroon);display:grid;place-items:center;color:var(--cream);font-size:.75rem;text-align:center}.photo-frame img{width:100%;height:100%;object-fit:cover}.about-text h2,.units-preview h2{font-size:clamp(1.7rem,3vw,2.3rem);font-weight:700;margin-bottom:1rem}.about-text p{max-width:55ch;font-size:1.05rem}
+.project-note{max-width:1100px;margin:0 auto;padding:0 8vw 3.5rem}.project-note p{max-width:70ch;color:var(--maroon);font-size:1.05rem;font-weight:500}.project-note strong{color:var(--ink);font-weight:700}
+.units-preview{max-width:1100px;margin:auto;padding:0 8vw 5rem}.unit-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.2rem}.unit-card{background:var(--ink);color:var(--cream);border-radius:16px;padding:2rem;cursor:pointer;transition:transform .25s cubic-bezier(.16,1,.3,1),background .2s ease-out}.unit-card:hover{transform:translateY(-4px);background:var(--maroon)}.card-stars{display:flex;gap:4px;align-items:center;color:var(--ember);font-size:1.35rem;line-height:1;margin-bottom:.9rem}.star{display:inline-block;width:1em;height:1em;position:relative;color:var(--muted)}.star::before{content:'★';position:absolute;inset:0}.star.full{color:var(--ember)}.star.half::after{content:'★';position:absolute;inset:0;width:50%;overflow:hidden;color:var(--ember)}.card-title{font-size:1.3rem;font-weight:700}.card-desc{color:var(--ash);font-size:.88rem}
+.unit-hero{color:var(--cream);padding:5.5rem 8vw 4.5rem}.unit-hero .eyebrow{color:var(--unit-accent)}.unit-hero h1{font-size:clamp(2.2rem,5vw,3.9rem);line-height:1.05;font-weight:700;color:var(--unit-accent);max-width:15ch;text-wrap:balance}.unit-hero .desc{margin-top:1.2rem;color:var(--ash);max-width:56ch}.unit1 .unit-hero{background:linear-gradient(160deg,var(--maroon),var(--ink) 75%);--unit-accent:var(--ember)}.unit2 .unit-hero{background:linear-gradient(160deg,oklch(28% .09 185),var(--ink) 76%);--unit-accent:oklch(75% .15 90)}.unit3 .unit-hero{background:linear-gradient(160deg,oklch(27% .10 260),var(--ink) 76%);--unit-accent:oklch(76% .13 155)}
+.units-grid{padding:2rem 8vw 6rem;max-width:1100px;margin:auto;display:flex;flex-direction:column;gap:1rem}.tema{background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden}.tema-head{width:100%;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.3rem 1.6rem;background:none;border:0;cursor:pointer;text-align:left;font-size:1.18rem;font-weight:700;color:var(--ink)}.tema-head>span:first-child{max-width:calc(100% - 42px)}.num{font-size:.78rem;color:var(--unit-accent,var(--crimson));margin-right:.8rem;font-weight:600}.icon{flex:0 0 auto;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--unit-accent,var(--crimson));color:var(--ink);font-size:1.1rem;font-weight:500;transition:transform .25s ease-out}.tema.open .icon{transform:rotate(45deg)}.tema-body{display:grid;grid-template-rows:0fr;background:var(--cream);transition:grid-template-rows .35s cubic-bezier(.16,1,.3,1)}.tema.open .tema-body{grid-template-rows:1fr}.tema-body-inner{min-height:0;overflow:hidden;padding:0 1.6rem;display:grid;grid-template-columns:minmax(180px,.75fr) minmax(0,1.5fr);gap:2rem;transition:padding .35s ease-out}.tema.open .tema-body-inner{padding-top:1.6rem;padding-bottom:1.8rem}.tema-img{width:100%;aspect-ratio:4/3;border-radius:10px;background:linear-gradient(135deg,var(--maroon),var(--crimson));display:grid;place-items:center;color:oklch(96% .025 75 / .86);font-size:.8rem;text-align:center;padding:1rem}.main-copy{max-width:68ch}.main-copy .lead{font-size:1.12rem;line-height:1.6;color:var(--ink);margin-bottom:1rem;font-weight:600}.main-copy p{font-size:1rem;color:oklch(31% .025 35);text-wrap:pretty}.main-copy p+p{margin-top:.8rem}.main-copy ul{padding-left:1.25rem;margin-top:.7rem}.main-copy li{margin:.5rem 0;color:oklch(31% .025 35)}.main-copy strong{font-weight:700;color:var(--ink)}.note{margin-top:1rem;padding-top:.9rem;border-top:1px solid var(--line);color:var(--crimson)!important;font-size:.82rem!important;font-weight:600!important}code{font-family:var(--font);font-size:.9em;background:oklch(25% .12 20 / .09);padding:.12em .35em;border-radius:4px;color:var(--maroon)}footer{padding:3rem 8vw;border-top:1px solid oklch(20% .035 35 / .1);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}.mark{font-weight:700}
+@media(max-width:760px){nav{align-items:flex-start;gap:1rem;flex-direction:column}.photo-about,.tema-body-inner{grid-template-columns:1fr}.photo-frame{margin:auto}.photo-about{text-align:center}.about-text p{margin-left:auto;margin-right:auto}.home-hero{min-height:80svh;padding-top:5rem}.tema-head{padding:1.1rem 1rem}.tema-body-inner{padding-left:1rem;padding-right:1rem;gap:1.2rem}.unit-hero h1{max-width:100%}.project-note{padding-bottom:2.5rem}}
 </style>
 </head>
 <body>
-
-<!-- NAV -->
-<nav class="topnav">
-  <a class="brand" href="#inicio">Daniela Aguilar</a>
-  <div class="links">
-    <a class="navlink" href="#inicio">Inicio</a>
-    <a class="navlink" href="#sobre-mi">Sobre mí</a>
-    <a class="navlink" href="#unidad1">U1</a>
-    <a class="navlink" href="#unidad2">U2</a>
-    <a class="navlink" href="#unidad3">U3</a>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section class="home-hero" id="inicio">
-  <div class="hero-content">
-    <p class="eyebrow">Biografía personal</p>
-    <h1>Daniela Abigail<br>Aguilar Arreaga</h1>
-    <p class="sub">Estudiante de Nivelación en la Universidad Técnica de Cotopaxi.</p>
-    <div class="tags">
-      <span class="tag">18 años</span>
-      <span class="tag">Latacunga, Cotopaxi</span>
-      <span class="tag">UTC Estudiante</span>
-    </div>
-  </div>
-  <div class="volcano-wrap">
-    <div class="glow-pulse"></div>
-    <svg viewBox="0 0 1200 420" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="width:100%; height:auto; display:block;">
-      <path d="M0 420 L0 300 L260 300 L420 120 L520 210 L600 90 L680 210 L780 130 L940 300 L1200 300 L1200 420 Z" fill="#170A08"/>
-      <path d="M0 420 L0 340 L300 340 L470 170 L600 90 L730 170 L900 340 L1200 340 L1200 420 Z" fill="#5C0F16"/>
-      <path d="M560 130 L600 90 L640 130 L620 150 L640 170 L600 205 L560 170 L580 150 Z" fill="#E8622C" opacity="0.9"/>
-    </svg>
-  </div>
-</section>
-
-<!-- SOBRE MÍ -->
-<section class="panel" id="sobre-mi">
-  <div class="grid-2">
-    <div>
-      <p class="eyebrow">01 — Sobre mí</p>
-      <h2>Quién soy</h2>
-    </div>
-    <div>
-      <p>Mi nombre es Daniela Abigail Aguilar Arreaga, tengo 18 años y soy oriunda de la provincia de Cotopaxi. Mis padres son Manuel Aguilar y Paola Arreaga, quienes han sido mi pilar fundamental.</p>
-      <p>Actualmente, curso mis estudios en la etapa de Nivelación en la Universidad Técnica de Cotopaxi (UTC), con la meta de integrarme plenamente a la carrera de mi elección. Me gradué en la Unidad Educativa Pujilí, donde cultivé mi interés por el aprendizaje.</p>
-      <p>Este sitio web funciona como mi portafolio digital, reuniendo mi biografía y el Proyecto Final de Nivelación, organizado estructuradamente en tres unidades de estudio.</p>
-    </div>
-  </div>
-</section>
-
-<!-- FORMACIÓN -->
-<section class="panel" id="formacion">
-  <div class="grid-2">
-    <div>
-      <p class="eyebrow">02 — Formación</p>
-      <h2>Educación</h2>
-    </div>
-    <div>
-      <div class="edu-card">
-        <div class="school">Universidad Técnica de Cotopaxi (UTC)</div>
-        <div class="place">Estudiante de Nivelación — Latacunga, Ecuador<br>2026 - Presente</div>
-      </div>
-      <div class="edu-card">
-        <div class="school">Unidad Educativa Pujilí</div>
-        <div class="place">Bachillerato General Unificado — Pujilí, Ecuador<br>Graduada</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ UNIDAD 1 ============ -->
-<div class="unit-header" id="unidad1">
-  <div class="glow"></div>
-  <p class="eyebrow">Proyecto final</p>
-  <h2>Unidad 1</h2>
-  <p class="desc">Fundamentos y Herramientas Digitales para el Aprendizaje Universitario.</p>
-</div>
-<div class="units-grid">
-  <div class="tema">
-    <button class="tema-head"><span><span class="num">01</span>Introducción al Entorno Virtual</span><span class="icon">+</span></button>
-    <div class="tema-body"><div class="tema-body-inner">
-      <div class="tema-img">Captura del Sistema Académico UTC</div>
-      <div>
-        <p>Este tema abordó el reconocimiento y uso eficiente de la plataforma académica oficial de la UTC. Aprendimos a navegar por el aula virtual, gestionar el perfil de estudiante, revisar silabos y familiarizarnos con los mecanismos de entrega de tareas y foros de discusión.</p>
-        <p>La adaptación a este entorno es crucial para el éxito en la modalidad presencial y semipresencial.</p>
-        <p class="note">✎ Sugerencia: Inserta una captura de pantalla de tu perfil en el aula virtual.</p>
-      </div>
-    </div></div>
-  </div>
-  <div class="tema">
-    <button class="tema-head"><span><span class="num">02</span>Herramientas de Ofimática en la Nube</span><span class="icon">+</span></button>
-    <div class="tema-body"><div class="tema-body-inner">
-      <div class="tema-img">Grafico de Google Drive/Office 365</div>
-      <div>
-        <p>Exploramos el uso de herramientas colaborativas en la nube, principalmente Google Workspace (Docs, Sheets, Slides) y Microsoft Office 365. El enfoque estuvo en la creación de documentos compartidos, la edición en tiempo real para trabajos en grupo y la gestión de archivos en Drive.</p>
-        <p>Estas herramientas optimizan el tiempo y facilitan la coordinación entre compañeros.</p>
-        <p class="note">✎ Sugerencia: Imagen de un documento colaborativo con comentarios.</p>
-      </div>
-    </div></div>
-  </div>
-  <div class="tema">
-    <button class="tema-head"><span><span class="num">03</span>Búsqueda y Selección de Información</span><span class="icon">+</span></button>
-    <div class="tema-body"><div class="tema-body-inner">
-      <div class="tema-img">Logos de Bases de Datos Académicas</div>
-      <div>
-        <p>Aprendimos a diferenciar entre fuentes de información confiables y no confiables en la web. Nos centramos en el uso de motores de búsqueda académicos como Google Académico y el acceso a las bases de datos de la biblioteca virtual de la UTC (Dialnet, Scielo).</p>
-        <p>Se enfatizó la importancia de verificar la autoría, fecha y rigor científico del contenido.</p>
-        <p class="note">✎ Sugerencia: Captura de una búsqueda exitosa en Google Académico.</p>
-      </div>
-    </div></div>
-  </div>
-  <div class="tema">
-    <button class="tema-head"><span><span class="num">04</span>Ética Académica y Plagio</span><span class="icon">+</span></button>
-    <div class="tema-body"><div class="tema-body-inner">
-      <div class="tema-img">Infografía sobre Honestidad Académica</div>
-      <div>
-        <p>Este tema fue fundamental para entender la importancia de la honestidad académica. Analizamos qué constituye el plagio (directo, accidental, parafraseo inadecuado) y las consecuencias legales y académicas que conlleva en la UTC.</p>
-        <p>Discutimos cómo el uso correcto de citas protege nuestra integridad y valora el trabajo de otros autores.</p>
-        <p class="note">✎ Sugerencia: Un gráfico simple que muestre "Citar vs. Plagiar".</p>
-      </div>
-    </div></div>
-  </div>
-  <div class="tema">
-    <button class="tema-head"><span><span class="num">05</span>Organizadores Gráficos Digitales</span><span class="icon">+</span></button>
-    <div class="tema-body"><div class="tema-body-inner">
-      <div class="tema-img">Mapa Mental Creado en Canva/MindMeister</div>
-      <div>
-        <p>Practicamos la síntesis de información utilizando herramientas digitales para crear organizadores gráficos (mapas mentales, conceptuales, cuadros sinópticos). Usamos plataformas como Canva, MindMeister o Lucidchart.</p>
-        <p>Esta técnica facilita la comprensión de temas complejos y mejora la retención de conocimientos para los exámenes.</p>
-        <p class="note">✎ Sugerencia: Un mapa mental resumen de la Unidad 1 hecho por ti.</p>
-      </div>
-    </div></div>
-  </div>
-</div>
-
-<!-- ============ UNIDAD 2 ============ -->
-<div class="unit-header" id="unidad2">
-  <div class="glow"></div>
-  <p class="eyebrow">Proyecto final</p>
-  <h2>Unidad 2</h2>
-  <p class="desc">Comunicación Efectiva y Estrategias de Aprendizaje Crítico.</p>
-</div>
-<div class="units-grid">
-  <div class="tema">
-    <button class="tema-head"><span><span class="num">01</span>Técnicas de Lectura Comprensiva</span><span class="icon">+</span></button>
-    <div class="tema-body"><div class="tema-body-inner">
-      <div class="tema-img">Libro subrayado o esquema de lectura</div>
-      <div>
-        <p>Estudiamos métodos para pasar de una lectura pasiva a una activa. Aplicamos técnicas como el subrayado de ideas principales y secundarias, la toma de notas al margen y la formulación de preguntas sobre el texto.</p>
-        <p>El objetivo fue mejorar la capacidad de análisis y la velocidad de comprensión de textos académicos.</p>
-        <p class="note">✎ Sugerencia: Foto de un texto académico subrayado con tus notas.</p>
-      </div>
-    </div></div>
-  </div>
-  <div class="tema">
-    <button class="tema-head"><span><span class="num">02</span>El Proceso de la Escritura Académica</span><span class="icon">+</span></button>
-    <div class="tema-body"><div class="tema-body-inner">
-      <div class="tema-img">Esquema de planificación de un texto</div>
-      <div>
-        <p>Analizamos las etapas para redactar textos académicos efectivos: planificación (lluvia de ideas y esquema), textualización (redacción del borrador) y revisión (corrección ortográfica, gramatical y de estilo).</p>
-        <p>Se enfatizó que la escritura es un proceso iterativo y que el primer borrador nunca es el definitivo.</p>
-        <p class="note">✎ Sugerencia: Imagen de tu esquema preliminar para el proyecto.</p>
-      </div>
-    </div></div>
-  </div>
-  <div class="tema">
-    <button class="tema-head"><span><span class="num">03</span>La Comunicación Oral Formal</span><span class="icon">+</span></button>
-    <div class="tema-body"><div class="tema-body-inner">
-      <div class="tema-img">Estudiante exponiendo con diapositivas</div>
-      <div>
-        <p>Desarrollamos habilidades para hablar en público en un contexto universitario. Abordamos la estructura de una exposición formal (introducción, desarrollo, conclusión), el uso adecuado del lenguaje corporal, la modulación de la voz y el manejo de los nervios.</p>
-        <p>También cubrimos el diseño de diapositivas de apoyo que sean visualmente limpias y no saturadas.</p>
-        <p class="note">✎ Sugerencia: Captura de una diapositiva bien diseñada para una exposición.</p>
-      </div>
-    </div></div>
-  </div>
-  <div class="tema">
-    <button class="tema-head"><span><span class="num">04</span>Argumentación y Pensamiento Crítico</span><span class="icon">+</span></button>
-    <div class="tema-body"><div class="tema-body-inner">
-      <div class="tema-img">Gráfico de debate o análisis lofico</div>
-      <div>
-        <p>Este tema se centró en la capacidad de analizar argumentos ajenos y construir los propios de manera lógica y fundamentada. Aprendimos a identificar falacias comunes y a sustentar nuestras opiniones con evidencias y datos, superando el "yo creo".</p>
-        <p>El pensamiento crítico es vital para no aceptar la información de forma pasiva.</p>
-        <p class="note">✎ Sugerencia: Un ejemplo simple de una premisa y su conclusión.</p>
-      </div>
-    </div></div>
-  </div>
-  <div class="tema">
-    <button class="tema-head"><span><span class="num">05</span>Métodos y Hábitos de Estudio</span><span class="icon">+</span></button>
-    <div class="tema-body"><div class="tema-body-inner">
-      <div class="tema-img">Cronograma de estudio o técnica Pomodoro</div>
-      <div>
-        <p>Exploramos diferentes métodos de estudio para optimizar el aprendizaje, como la técnica Pomodoro para la gestión del tiempo, la repetición espaciada y el método Cornell para tomar apuntes.</p>
-        <p>Discutimos la importancia de crear un cronograma de estudio realista y mantener hábitos saludables (sueño, alimentación) para un rendimiento académico óptimo.</p>
-        <p class="note">✎ Sugerencia: Foto de tu agenda o planificación semanal de estudio.</p>
-      </div>
-    </div></div>
-  </div>
-</div>
-
-<!-- ============ UNIDAD 3 ============ -->
-<div class="unit-header" id="unidad3">
-  <div class="glow"></div>
-  <p class="eyebrow">Proyecto final</p>
-  <h2>Unidad 3</h2>
-  <p class="desc">Introducción a la Metodología de la Investigación Académica.</p>
-</div>
-<div class="units-grid">
-  <div class="tema">
-    <button class="tema-head"><span><span class="num">01</span>El Método Científico y sus Etapas</span><span class="icon">+</span></button>
-    <div class="tema-body"><div class="tema-body-inner">
-      <div class="tema-img">Diagrama del Método Científico</div>
-      <div>
-        <p>Introducción a la investigación científica. Estudiamos las etapas clásicas del método científico: observación, planteamiento del problema, formulación de hipótesis, experimentación/recolección de datos, análisis de resultados y conclusiones.</p>
-        <p>Comprendimos cómo este método asegura que el conocimiento generado sea objetivo y verificable.</p>
-        <p class="note">✎ Sugerencia: Un diagrama que muestre el ciclo del método científico.</p>
-      </div>
-    </div></div>
-  </div>
-  <div class="tema">
-    <button class="tema-head"><span><span class="num">02</span>Tipos de Investigación Académica</span><span class="icon">+</span></button>
-    <div class="tema-body"><div class="tema-body-inner">
-      <div class="tema-img">Gráfico comparativo: Quali vs. Quanti</div>
-      <div>
-        <p>Diferenciamos los principales enfoques de investigación: cualitativa (centrada en la comprensión de fenómenos, usa entrevistas, observación) y cuantitativa (centrada en la medición y estadísticas, usa encuestas, datos numéricos).</p>
-        <p>También mencionamos la investigación mixta y cómo la elección del enfoque depende del objetivo del estudio.</p>
-        <p class="note">✎ Sugerencia: Un cuadro comparativo simple Quali-Quanti.</p>
-      </div>
-    </div></div>
-  </div>
-  <div class="tema">
-    <button class="tema-head"><span><span class="num">03</span>Normas APA: Citas y Referencias</span><span class="icon">+</span></button>
-    <div class="tema-body"><div class="tema-body-inner">
-      <div class="tema-img">Ejemplos de citas APA 7ma Edición</div>
-      <div>
-        <p>Tema práctico y crucial. Aprendimos a aplicar el formato APA (séptima edición) para citar fuentes dentro del texto (citas directas cortas, largas y parafraseo) y a elaborar correctamente la lista de referencias final.</p>
-        <p>Practicamos citando libros, artículos científicos y páginas web institucionales.</p>
-        <p class="note">✎ Sugerencia: Captura de pantalla de una lista de referencias APA hecha por ti.</p>
-      </div>
-    </div></div>
-  </div>
-  <div class="tema">
-    <button class="tema-head"><span><span class="num">04</span>Estructura del Ensayo Académico</span><span class="icon">+</span></button>
-    <div class="tema-body"><div class="tema-body-inner">
-      <div class="tema-img">Esquema: Intro, Desarrollo, Conclusión</div>
-      <div>
-        <p>Analizamos las partes fundamentales de un ensayo académico: la introducción (con la tesis o postura clara), el desarrollo (donde se presentan los argumentos apoyados en citas) y la conclusión (resumen de ideas y reflexión final).</p>
-        <p>Este esquema nos sirvió de base para la redacción de nuestro proyecto final.</p>
-        <p class="note">✎ Sugerencia: Un gráfico que muestre la estructura de un ensayo en embudo.</p>
-      </div>
-    </div></div>
-  </div>
-  <div class="tema">
-    <button class="tema-head"><span><span class="num">05</span>Presentación del Proyecto Final</span><span class="icon">+</span></button>
-    <div class="tema-body"><div class="tema-body-inner">
-      <div class="tema-img">Carátula o logo del proyecto final</div>
-      <div>
-        <p>El tema final consistió en la integración de todos los conocimientos adquiridos en las unidades anteriores para estructurar, redactar y formatear el Ensayo Final de Nivelación.</p>
-        <p>Revisamos los criterios de evaluación, la rúbrica y realizamos la entrega formal del documento a través de la plataforma de la UTC.</p>
-        <p class="note">✎ Sugerencia: Imagen de la carátula de tu proyecto final terminado.</p>
-      </div>
-    </div></div>
-  </div>
-</div>
-
-<!-- FOOTER -->
-<footer>
-  <span class="mark">Daniela A. Aguilar Arreaga</span>
-  <span class="eyebrow">Proyecto final · UTC 2026</span>
-</footer>
-
+<nav><span class="brand" onclick="showPage('inicio')">Daniela Aguilar</span><div class="links"><button class="navlink active" data-page="inicio">Inicio</button><button class="navlink" data-page="unidad1">Unidad 1</button><button class="navlink" data-page="unidad2">Unidad 2</button><button class="navlink" data-page="unidad3">Unidad 3</button></div></nav>
+<div class="page visible" id="page-inicio">
+<section class="home-hero"><div class="hero-content"><p class="eyebrow">Ingeniería en Software</p><h1>Daniela Abigail<br>Aguilar Arreaga</h1><p class="sub">¡Hola! Soy Daniela, estudiante de nivelación de la carrera de Ingeniería en Software en la Universidad Técnica de Cotopaxi. Me apasiona el desarrollo tecnológico y cómo la programación puede transformar ideas creativas en soluciones reales y funcionales.</p><div class="tags"><span class="tag">18 años</span><span class="tag">Latacunga, Cotopaxi</span><span class="tag">UTC 2026</span></div></div><div class="volcano"><div class="glow"></div><svg viewBox="0 0 1200 420" preserveAspectRatio="none" style="width:100%;display:block" aria-hidden="true"><path d="M0 420V300h260L420 120l100 90 80-120 80 120 100-80 160 170h260v120z" fill="#170A08"/><path d="M0 420v-80h300l170-170 130-80 130 80 170 170h300v80z" fill="#5C0F16"/><path d="m560 130 40-40 40 40-20 20 20 20-40 35-40-35 20-20z" fill="#E8622C"/></svg></div></section>
+<div class="photo-about"><div class="photo-frame"><img src="tu-foto.jpg" alt="Daniela Aguilar" onerror="this.style.display='none';this.parentElement.textContent='Coloca tu foto aquí';"></div><div class="about-text"><h2>Sobre mí</h2><p>Mi nombre es Daniela Abigail Aguilar Arreaga, tengo 18 años. Mis estudios fueron en la Unidad Educativa Pujilí. Me gusta el color rojo, amo a los gatos y, como dato curioso, no me gusta el encebollado.</p></div></div>
+<div class="project-note"><p><strong>Este proyecto refleja</strong> mi dedicación y el aprendizaje adquirido durante esta etapa de nivelación en la Universidad Técnica de Cotopaxi.</p></div>
+<div class="units-preview"><h2>Unidades del proyecto</h2><div class="unit-cards"><div class="unit-card" onclick="showPage('unidad1')"><div class="card-stars" aria-label="4 estrellas"><span class="star full"></span><span class="star full"></span><span class="star full"></span><span class="star full"></span></div><div class="card-title">Unidad 1</div><div class="card-desc">4 estrellas · 5 temas de estudio</div></div><div class="unit-card" onclick="showPage('unidad2')"><div class="card-stars" aria-label="3 estrellas y media"><span class="star full"></span><span class="star full"></span><span class="star full"></span><span class="star half"></span></div><div class="card-title">Unidad 2</div><div class="card-desc">3,5 estrellas · 4 temas de estudio</div></div><div class="unit-card" onclick="showPage('unidad3')"><div class="card-stars" aria-label="3 estrellas"><span class="star full"></span><span class="star full"></span><span class="star full"></span></div><div class="card-title">Unidad 3</div><div class="card-desc">3 estrellas · 5 temas de estudio</div></div></div></div></div>
+<div class="page unit1" id="page-unidad1"><section class="unit-hero"><p class="eyebrow">Proyecto final · Unidad 1</p><h1>Estructura y funcionamiento del computador</h1><p class="desc">Conoce los modelos de arquitectura, los sistemas de numeración y las bases de la lógica digital.</p></section><div class="units-grid"></div></div>
+<div class="page unit2" id="page-unidad2"><section class="unit-hero"><p class="eyebrow">Proyecto final · Unidad 2</p><h1>Algoritmos, diagramas de flujo y pseudocódigo</h1><p class="desc">Herramientas para analizar problemas y organizar soluciones antes de escribir código.</p></section><div class="units-grid"></div></div>
+<div class="page unit3" id="page-unidad3"><section class="unit-hero"><p class="eyebrow">Proyecto final · Unidad 3</p><h1>Programación</h1><p class="desc">Lenguajes, operadores y estructuras de control para construir soluciones claras y funcionales.</p></section><div class="units-grid"></div></div>
+<footer><span class="mark">Daniela A. Aguilar Arreaga</span><span class="eyebrow">Proyecto final · UTC 2026</span></footer>
 <script>
-document.querySelectorAll('.tema-head').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const tema = btn.closest('.tema');
-    
-    // Opcional: Cerrar otros temas abiertos (acordeón simple)
-    // document.querySelectorAll('.tema').forEach(t => {
-    //   if (t !== tema) t.classList.remove('open');
-    // });
-
-    tema.classList.toggle('open');
-  });
-});
+const unidad1=[{title:'Modelo de Von Neumann y arquitectura Harvard',image:'Modelos de arquitectura',content:`<p class="lead">Dos formas de organizar la memoria y el movimiento de instrucciones dentro de un computador.</p><p>El modelo de <strong>Von Neumann</strong> guarda las instrucciones, es decir, el programa, y los datos en la misma memoria. Además, utiliza un único bus para moverlos. Este modelo es la base de las computadoras y laptops actuales.</p><p>La arquitectura <strong>Harvard</strong> separa físicamente la memoria en dos bloques independientes: uno para las instrucciones y otro para los datos, cada uno con su propio bus. Esto permite que la CPU lea una instrucción y acceda a un dato al mismo tiempo, logrando mayor velocidad a costa de una mayor complejidad. Se utiliza mucho en microcontroladores y procesadores de señales digitales (DSP).</p><p class="note">En resumen: Von Neumann comparte la memoria para ahorrar espacio y costos; Harvard separa las memorias para ganar velocidad de procesamiento.</p>`},{title:'Sistemas operativos',image:'Sistema operativo',content:`<p class="lead">El software principal que coordina los recursos de un dispositivo.</p><p>El sistema operativo es el programa maestro de un dispositivo. Administra el procesador, la memoria, el almacenamiento y los periféricos para que las aplicaciones puedan ejecutarse.</p><p>Su objetivo principal es abstraer la complejidad técnica del hardware y ofrecer al usuario y a las aplicaciones un entorno organizado, seguro e intuitivo para trabajar.</p>`},{title:'Sistemas de numeración y conversiones',image:'Binario · octal · hexadecimal',content:`<p class="lead">Los sistemas de numeración representan cantidades mediante símbolos y reglas. Su diferencia principal es la base.</p><ul><li><strong>Binario, base 2:</strong> usa solo dos dígitos, <code>0</code> y <code>1</code>. Es el lenguaje fundamental de las computadoras.</li><li><strong>Octal, base 8:</strong> usa ocho dígitos, del <code>0</code> al <code>7</code>. Agrupa los bits de tres en tres.</li><li><strong>Hexadecimal, base 16:</strong> usa los dígitos del <code>0</code> al <code>9</code> y las letras de la <code>A</code> a la <code>F</code>. En este sistema, A=10, B=11, C=12, D=13, E=14 y F=15. Agrupa los bits de cuatro en cuatro.</li></ul>`},{title:'Aritmética binaria',image:'Operaciones en base 2',content:`<p class="lead">La aritmética binaria ejecuta operaciones matemáticas utilizando únicamente los dígitos 0 y 1.</p><p>La suma y la multiplicación se rigen por tablas de combinaciones directas y generan acarreos cuando el resultado supera la base. La resta utiliza un acarreo negativo o, en los sistemas digitales, se transforma en una suma mediante el método del complemento a 2 para simplificar el hardware de procesamiento.</p>`},{title:'Álgebra de Boole',image:'Lógica digital',content:`<p class="lead">Una estructura matemática para analizar y simplificar funciones lógicas.</p><p>El álgebra de Boole opera con variables binarias, 0 y 1, mediante las operaciones básicas de suma, equivalente a <strong>OR</strong>; producto, equivalente a <strong>AND</strong>; e inversión, equivalente a <strong>NOT</strong>.</p><p>A través de sus leyes y teoremas, como los teoremas de De Morgan, permite expresar, analizar y simplificar funciones lógicas complejas para optimizar la construcción de circuitos electrónicos y computacionales.</p>`}];
+const unidad2=[{title:'Algoritmos y sus características',image:'Diseño lógico de algoritmos',content:`<p class="lead">Un algoritmo es una secuencia finita, ordenada y precisa de instrucciones deterministas.</p><p>Procesa datos de entrada para generar un resultado de salida específico. Sus características clave incluyen la precisión, la finitud, la efectividad y la repetibilidad de sus resultados.</p><p>El algoritmo sirve como diseño lógico previo a la codificación en cualquier lenguaje de programación.</p>`},{title:'Diagramas de flujo como herramientas de modelación de algoritmos',image:'Símbolos de un diagrama de flujo',content:`<p class="lead">Una representación gráfica de la secuencia lógica de un algoritmo.</p><p>Los diagramas de flujo utilizan símbolos estandarizados y líneas de dirección para mostrar cada paso de un proceso.</p><p>Su objetivo principal es simplificar el análisis, la estructuración y la validación de un proceso antes de su implementación en código, garantizando claridad en la toma de decisiones y en el flujo de datos.</p>`},{title:'Pseudocódigo: una herramienta de modelación de algoritmos',image:'Pseudocódigo estructurado',content:`<p class="lead">El pseudocódigo, o “falso lenguaje”, describe la lógica de un proceso sin depender de un lenguaje de programación específico.</p><p>Utiliza un lenguaje intermedio que mezcla lenguaje natural estructurado con convenciones de programación. Así, el diseñador puede centrarse en variables, condiciones, bucles y operaciones antes de traducir el algoritmo a código real.</p><p>Puede convertirse posteriormente en programas escritos en Python, C++, Java o JavaScript.</p>`},{title:'Modelado de problemas',image:'Entradas · procesos · salidas',content:`<p class="lead">La etapa que transforma una necesidad del mundo real en una representación lógica bien definida.</p><p>El modelado de problemas identifica las entradas, los procesos, las salidas y las restricciones de una situación.</p><p>Es el paso previo e indispensable para diseñar algoritmos, porque garantiza que se esté resolviendo el problema correcto de forma estructurada antes de escribir cualquier línea de código.</p>`}];
+const unidad3=[{title:'Lenguajes y paradigmas de programación',image:'Lenguajes · modelos lógicos',content:`<p class="lead">Los lenguajes de programación proporcionan la sintaxis para comunicarnos con las computadoras, mientras que los paradigmas definen cómo estructurar una solución.</p><p>Los paradigmas <strong>imperativos</strong>, como la programación estructurada y la programación orientada a objetos, especifican el paso a paso detallado para transformar datos.</p><p>Los paradigmas <strong>declarativos</strong>, como la programación funcional y la programación lógica, se enfocan en definir el resultado deseado mediante reglas o funciones matemáticas.</p>`},{title:'Introducción a la programación con Python',image:'Python · sintaxis limpia',content:`<p class="lead">Python es un lenguaje de programación interpretado y de sintaxis limpia que facilita el aprendizaje al omitir estructuras complejas.</p><p>Su funcionamiento se basa en la gestión automática de tipos de datos y en la delimitación de bloques mediante indentación.</p><p>También utiliza estructuras secuenciales, condicionales como <code>if-else</code>, repetitivas como <code>for</code> y <code>while</code>, y funciones reutilizables definidas con <code>def</code>.</p>`},{title:'Operadores algebraicos, relacionales y lógicos',image:'Operadores y precedencia',content:`<p class="lead">Los operadores permiten realizar cálculos, comparar valores y combinar condiciones dentro de un algoritmo.</p><p>Los operadores algebraicos procesan cálculos numéricos. Los operadores relacionales comparan dos valores y devuelven un resultado booleano, verdadero o falso. Los operadores lógicos combinan múltiples condiciones.</p><p>Su evaluación sigue una jerarquía estricta de precedencia:</p><ul><li><strong>Paréntesis:</strong> <code>()</code>, resuelven primero la expresión interna.</li><li><strong>Potenciación:</strong> <code>**</code>.</li><li><strong>Multiplicación, división y módulo:</strong> <code>*</code>, <code>/</code>, <code>//</code>, <code>%</code>.</li><li><strong>Suma y resta:</strong> <code>+</code>, <code>-</code>.</li><li><strong>Operadores relacionales:</strong> <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code>, <code>==</code>, <code>!=</code>.</li><li><strong>Operador lógico NOT:</strong> <code>not</code>.</li><li><strong>Operadores lógicos AND y OR:</strong> <code>and</code>, <code>or</code>.</li></ul>`},{title:'Estructuras de control condicionales',image:'Decisiones en un programa',content:`<p class="lead">Las estructuras condicionales permiten que los programas tomen decisiones durante su ejecución.</p><p>Evalúan condiciones booleanas para determinar qué instrucciones deben ejecutarse según los datos procesados.</p><ul><li><strong>Condicional simple:</strong> <code>if</code>.</li><li><strong>Condicional doble:</strong> <code>if-else</code>.</li><li><strong>Condicional múltiple:</strong> <code>if-elif-else</code>.</li><li><strong>Selección explícita:</strong> <code>match-case</code>.</li></ul><p>Estas estructuras garantizan que solo se ejecuten las instrucciones adecuadas en cada situación.</p>`},{title:'Estructuras de control repetitivas',image:'Bucles · ciclos · iteraciones',content:`<p class="lead">Las estructuras repetitivas, también llamadas bucles, ciclos o iteraciones, ejecutan un conjunto de instrucciones varias veces.</p><p>Permiten repetir un bloque mientras se cumpla una condición lógica o durante un número determinado de veces. Evitan la duplicación de código y son indispensables para procesar colecciones de datos, realizar cálculos acumulativos o mantener un programa en ejecución.</p><p><code>for</code> es ideal para secuencias o un número determinado de iteraciones, mientras que <code>while</code> se utiliza cuando la repetición depende de una condición lógica variable. Las instrucciones <code>break</code> y <code>continue</code> permiten detener o saltar iteraciones según sea necesario.</p>`}];
+function renderTemas(id,items){const page=document.querySelector(`#page-${id}`);page.querySelector('.units-grid').innerHTML=items.map((tema,i)=>`<article class="tema"><button class="tema-head" aria-expanded="false"><span><span class="num">${String(i+1).padStart(2,'0')}</span>${tema.title}</span><span class="icon" aria-hidden="true">+</span></button><div class="tema-body"><div class="tema-body-inner"><div class="tema-img">${tema.image}</div><div class="main-copy">${tema.content}</div></div></div></article>`).join('')}
+renderTemas('unidad1',unidad1);renderTemas('unidad2',unidad2);renderTemas('unidad3',unidad3);
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('visible'));document.getElementById('page-'+id).classList.add('visible');document.querySelectorAll('.navlink').forEach(b=>b.classList.toggle('active',b.dataset.page===id));window.scrollTo(0,0)}
+document.querySelectorAll('.navlink').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));document.addEventListener('click',e=>{const head=e.target.closest('.tema-head');if(!head)return;const tema=head.closest('.tema');const open=tema.classList.toggle('open');head.setAttribute('aria-expanded',open)});
 </script>
-
 </body>
 </html>
